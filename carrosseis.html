@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Microloading · 6 Carrosséis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/open-sauce-one" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;
+  --panel:#070707;
+  --ink:#FFFCF8;
+  --ink-2:#B8B4AE;
+  --ink-3:#5C5852;
+  --rule:#1A1A1A;
+  --rule-2:#262626;
+  --accent:#0150FF;
+  --display:"Open Sauce One","Montserrat","Helvetica Neue",Arial,sans-serif;
+  --body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  --italic:"Times New Roman",Times,serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --track:-.065em;
+  --gutter:clamp(20px,4vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden;line-height:1.5}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--ink)}
+
+/* page header */
+.page-head{padding:90px var(--gutter) 40px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:end}
+.page-head h1{font-family:var(--display);font-weight:700;letter-spacing:var(--track);line-height:.9;font-size:clamp(44px,6vw,96px);text-wrap:balance}
+.page-head h1 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.02em}
+.page-head .meta{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-3);line-height:2;text-align:right}
+.page-head .back{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:inline-flex;gap:8px;margin-bottom:16px}
+@media (max-width:800px){.page-head{grid-template-columns:1fr}.page-head .meta{text-align:left}}
+
+/* carousel block */
+.carousel{padding:56px var(--gutter);border-bottom:1px solid var(--rule);position:relative}
+.carousel:nth-child(odd){background:var(--panel)}
+.carousel-head{display:grid;grid-template-columns:120px 1fr auto;gap:32px;margin-bottom:28px;align-items:end}
+.carousel-head .idx{font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:88px;line-height:.85;color:var(--accent)}
+.carousel-head h2{font-family:var(--display);font-weight:700;letter-spacing:var(--track);line-height:.92;font-size:clamp(26px,3.4vw,46px);text-wrap:balance}
+.carousel-head h2 em{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.02em}
+.carousel-head .tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
+.carousel-head .tag b{display:block;color:var(--accent);font-weight:700}
+@media (max-width:800px){.carousel-head{grid-template-columns:60px 1fr;gap:20px}.carousel-head .idx{font-size:56px}.carousel-head .tag{grid-column:2;text-align:left}}
+
+/* reel */
+.reel{display:grid;grid-auto-flow:column;grid-auto-columns:min(340px,72vw);gap:14px;overflow-x:auto;padding:8px 2px 24px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--rule-2) transparent}
+.reel::-webkit-scrollbar{height:8px}
+.reel::-webkit-scrollbar-track{background:var(--rule)}
+.reel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:4px}
+
+/* slide — 1080x1350 feel, uses cq units so everything scales with slide width */
+.slide{
+  container-type:inline-size;
+  aspect-ratio:4/5;
+  position:relative;
+  background:#0A0A0A;
+  border:1px solid var(--rule-2);
+  overflow:hidden;
+  scroll-snap-align:start;
+  display:flex;
+  flex-direction:column;
+}
+.slide.bg-ink{background:var(--accent);color:var(--ink)}
+.slide.bg-off{background:var(--ink);color:#000}
+.slide .pad{position:absolute;inset:0;padding:9cqw;display:flex;flex-direction:column;justify-content:space-between;gap:4cqw}
+.slide .top{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:2.6cqw;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:currentColor;opacity:.75}
+.slide .top .brand{color:currentColor;opacity:1}
+.slide.bg-ink .top{opacity:.85}
+.slide .bottom{display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:2.4cqw;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:currentColor;opacity:.55}
+.slide .bottom .sw{display:inline-flex;gap:.6em;align-items:center}
+.slide .bottom .sw b{color:var(--accent);font-weight:700}
+.slide.bg-ink .bottom .sw b, .slide.bg-off .bottom .sw b{color:#000}
+
+/* type helpers inside slides */
+.t-hero{font-family:var(--display);font-weight:700;letter-spacing:var(--track);line-height:.92;font-size:13cqw}
+.t-title{font-family:var(--display);font-weight:700;letter-spacing:var(--track);line-height:.92;font-size:9.5cqw}
+.t-med{font-family:var(--display);font-weight:700;letter-spacing:var(--track);line-height:.95;font-size:7cqw}
+.t-body{font-family:var(--body);font-weight:400;font-size:3.6cqw;line-height:1.45;color:currentColor;opacity:.82}
+.t-kicker{font-family:var(--mono);font-weight:700;font-size:2.6cqw;letter-spacing:.25em;text-transform:uppercase;color:var(--accent)}
+.slide.bg-ink .t-kicker{color:var(--ink)}
+.slide.bg-off .t-kicker{color:#000}
+.ital{font-family:var(--italic);font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.02em}
+.slide.bg-ink .ital{color:var(--ink);opacity:.9}
+.slide.bg-off .ital{color:#0150FF}
+.dot-sep{display:inline-block;width:.5em;height:.5em;background:var(--accent);border-radius:50%;vertical-align:middle;margin:0 .35em}
+.slide.bg-ink .dot-sep{background:var(--ink)}
+.hr{height:2px;background:currentColor;opacity:.2;width:100%;margin:4cqw 0}
+.slide.bg-ink .hr{background:var(--ink);opacity:.35}
+.quote-mark{font-family:var(--italic);font-style:italic;color:var(--accent);font-size:18cqw;line-height:.6;display:block;margin-bottom:2cqw}
+.slide.bg-ink .quote-mark{color:var(--ink);opacity:.55}
+
+/* list inside slides */
+.slist{display:flex;flex-direction:column;gap:2.6cqw;margin-top:2cqw}
+.slist li{list-style:none;position:relative;padding-left:5cqw;font-family:var(--body);font-weight:500;font-size:4cqw;line-height:1.3;color:currentColor}
+.slist li::before{content:"";position:absolute;left:0;top:.62em;width:3cqw;height:.3cqw;background:var(--accent)}
+.slide.bg-ink .slist li::before{background:var(--ink)}
+.slide.bg-off .slist li::before{background:#000}
+
+/* compare table */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;margin-top:4cqw}
+.compare .col{border:1px solid currentColor;border-color:rgba(255,252,248,.18);padding:4cqw;display:flex;flex-direction:column;gap:2cqw}
+.compare .col h4{font-family:var(--mono);font-weight:700;font-size:2.8cqw;letter-spacing:.22em;text-transform:uppercase}
+.compare .col.err h4{color:#888}
+.compare .col.ok h4{color:var(--accent)}
+.compare .col p{font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:5cqw;line-height:.95}
+.compare .col.err p{color:var(--ink-2);text-decoration:line-through;text-decoration-color:#555;text-decoration-thickness:2px}
+.compare .col.ok p{color:var(--ink)}
+
+/* etapas grid */
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2cqw;margin-top:4cqw}
+.steps-grid .cell{border:1px solid rgba(255,252,248,.15);padding:3cqw 2cqw;display:flex;flex-direction:column;gap:1.5cqw;aspect-ratio:1}
+.steps-grid .n{font-family:var(--display);font-weight:700;letter-spacing:var(--track);color:var(--accent);font-size:6cqw;line-height:1}
+.steps-grid .l{font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:3cqw;line-height:.95;margin-top:auto}
+.steps-grid .sub{font-family:var(--mono);font-size:1.8cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+
+/* cta slide style */
+.cta-core{display:flex;flex-direction:column;justify-content:center;flex:1}
+.cta-core h3{font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:9cqw;line-height:.92}
+.cta-core p{font-family:var(--body);font-size:3.6cqw;line-height:1.45;margin-top:3cqw;opacity:.8;max-width:80%}
+.cta-box{margin-top:5cqw;display:inline-flex;align-items:center;gap:2.5cqw;padding:3.5cqw 4.5cqw;background:var(--accent);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:2.8cqw;letter-spacing:.22em;text-transform:uppercase;border-radius:.5cqw;align-self:flex-start}
+.slide.bg-ink .cta-box{background:var(--ink);color:var(--accent)}
+
+/* big number */
+.big-number{font-family:var(--display);font-weight:700;letter-spacing:var(--track);color:var(--accent);font-size:44cqw;line-height:.82;margin:-2cqw 0}
+.slide.bg-ink .big-number{color:var(--ink);opacity:.9}
+
+/* stamp */
+.stamp{display:inline-flex;align-items:center;gap:1.8cqw;font-family:var(--mono);font-weight:700;font-size:2.4cqw;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);border:.25cqw solid var(--accent);padding:1.5cqw 2.5cqw;border-radius:.5cqw;align-self:flex-start}
+.slide.bg-ink .stamp{color:var(--ink);border-color:var(--ink)}
+
+/* page corner mark */
+.corner-mark{position:fixed;bottom:16px;right:20px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);z-index:10;pointer-events:none}
+
+.footer{padding:40px var(--gutter);border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+.footer .logo{font-family:var(--display);font-weight:700;letter-spacing:var(--track);color:var(--ink);font-size:18px}
+.footer .logo em{font-family:var(--italic);font-style:italic;color:var(--accent);font-weight:400}
+
+/* scroll hint */
+.hint{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;display:flex;gap:10px;align-items:center}
+.hint::before{content:"";width:28px;height:2px;background:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div>
+    <a class="back" href="Microloading.html">← Voltar ao site</a>
+    <h1>Seis carrosséis para <em>academias</em> que querem cobrar mais.</h1>
+  </div>
+  <div class="meta">
+    Série · 001 / 2026<br>
+    06 peças · 4:5<br>
+    — —<br>
+    Microloading · BR
+  </div>
+</div>
+
+<!-- ================== CARROSSEL 01 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">01</div>
+    <h2>Sua academia parece com <em>todas as outras?</em></h2>
+    <div class="tag"><b>Tema</b>Diferenciação<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 cover -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Pergunta desconfortável</span>
+          <h3 class="t-hero" style="margin-top:3cqw">Sua academia parece com <span class="ital">todas as outras?</span></h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Leia até o fim</span></div>
+      </div>
+    </div>
+
+    <!-- S2 diagnosis -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>Diagnóstico</span><span>02 / 06</span></div>
+        <div>
+          <span class="t-kicker">Reconheça</span>
+          <h3 class="t-med" style="margin-top:3cqw">Mesma <span class="ital">cor.</span></h3>
+          <h3 class="t-med">Mesma <span class="ital">frase.</span></h3>
+          <h3 class="t-med">Mesma <span class="ital">foto.</span></h3>
+          <div class="hr"></div>
+          <p class="t-body">"Vem treinar com a gente." "Sua saúde em primeiro lugar." "Tudo que você precisa."</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>Continue →</span></div>
+      </div>
+    </div>
+
+    <!-- S3 big statement -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Consequência</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Quando tudo é igual,</h3>
+          <h3 class="t-title">o <span class="ital">preço</span> também.</h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 insight -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Lógica</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-med">Se o aluno não te <span class="ital">distingue,</span> ele escolhe pelo <span class="ital">mais barato.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 thesis -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Tese</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker">A virada</span>
+          <h3 class="t-title" style="margin-top:3cqw">Parecer <span class="ital">única</span> não é estética.</h3>
+          <h3 class="t-title">É <span class="ital">posição.</span></h3>
+          <div class="hr"></div>
+          <p class="t-body">Posição é o que a marca diz antes de qualquer palavra. É a parte que a concorrência não copia.</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Diagnóstico gratuito</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Sair do <span class="ital">genérico</span> é decisão — não sorte.</h3>
+          <p style="font-family:var(--body);font-size:3.6cqw;margin-top:3cqw;line-height:1.45;opacity:.9">Se sua academia merece parecer única, fale com a gente.</p>
+          <div class="cta-box">Chame no WhatsApp <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar para depois</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== CARROSSEL 02 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">02</div>
+    <h2>Se o aluno <em>não entende</em> você, não há credibilidade.</h2>
+    <div class="tag"><b>Tema</b>Credibilidade<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 cover -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Regra nº 001</span>
+          <h3 class="t-hero" style="margin-top:3cqw">Credibilidade <span class="ital">começa</span> na clareza.</h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Tese rápida</span></div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>02 / 06</span><span>Premissa</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Se o aluno <span class="ital">não entende</span> o que você é —</h3>
+          <h3 class="t-title" style="margin-top:2cqw">ele <span class="ital">não confia.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Coerência</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker">Mostre quem você é</span>
+          <h3 class="t-med" style="margin-top:3cqw">Se você é pra <span class="ital">iniciante,</span></h3>
+          <h3 class="t-med">mostre iniciante.</h3>
+          <div class="hr"></div>
+          <h3 class="t-med">Se você é pra <span class="ital">atleta,</span></h3>
+          <h3 class="t-med">mostre atleta.</h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Atenção</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-med">O aluno não desconfia do que você <span class="ital">fala.</span></h3>
+          <h3 class="t-med" style="margin-top:2cqw">Desconfia do que você <span class="ital">não mostra.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Equação</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Comunicação <span class="ital">clara</span></h3>
+          <h3 class="t-title">= matrícula <span class="ital">segura.</span></h3>
+          <div class="hr"></div>
+          <p class="t-body" style="opacity:.9">Quando o que você diz, mostra e entrega batem — o aluno chega decidido.</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Auditoria de clareza</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Deixe de ser <span class="ital">confiável</span> na prática.</h3>
+          <p style="font-family:var(--body);font-size:3.6cqw;margin-top:3cqw;line-height:1.45;opacity:.8">Mapeamos exatamente onde sua academia gera dúvida — e corrigimos.</p>
+          <div class="cta-box">Quero avaliar <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== CARROSSEL 03 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">03</div>
+    <h2>Sem clareza, você <em>não cobra mais.</em></h2>
+    <div class="tag"><b>Tema</b>Valor percebido<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 cover -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Sobre preço</span>
+          <h3 class="t-hero" style="margin-top:3cqw">Sem <span class="ital">clareza</span> você não cobra mais.</h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Sobre preço e marca</span></div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>02 / 06</span><span>Sintoma</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Preço travado é <span class="ital">sintoma.</span></h3>
+          <h3 class="t-title" style="margin-top:2cqw">Clareza é <span class="ital">remédio.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S3 comparison -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Comparação</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker" style="color:var(--ink);opacity:.8">A diferença</span>
+          <h3 class="t-med" style="margin-top:3cqw">Quem <span class="ital">não entende</span> o valor,</h3>
+          <h3 class="t-med">negocia.</h3>
+          <div class="hr"></div>
+          <h3 class="t-med">Quem <span class="ital">entende</span> o valor,</h3>
+          <h3 class="t-med">aceita.</h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 equation -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Equação</span></div>
+        <div style="margin:auto 0">
+          <p style="font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:7cqw;line-height:1.1;color:var(--ink)">Marca forte</p>
+          <p style="font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:7cqw;line-height:1.1;color:var(--accent);font-family:var(--italic);font-style:italic">= valor percebido</p>
+          <p style="font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:7cqw;line-height:1.1;color:var(--ink)">= ticket mais alto.</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 quote -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Tese</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-med">Preço não é escolha <span class="ital">financeira.</span></h3>
+          <h3 class="t-med" style="margin-top:2cqw">É consequência de <span class="ital">percepção.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Posicionamento</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Cobre pelo que <span class="ital">entrega.</span></h3>
+          <p style="font-family:var(--body);font-size:3.6cqw;margin-top:3cqw;line-height:1.45;opacity:.9">Organizamos a base da sua marca para o preço fazer sentido — pra você e pro aluno.</p>
+          <div class="cta-box">Fale conosco <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== CARROSSEL 04 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">04</div>
+    <h2>Academias fortes não convencem. Elas <em>confirmam.</em></h2>
+    <div class="tag"><b>Tema</b>Autoridade<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Tese 004</span>
+          <h3 class="t-hero" style="margin-top:3cqw">Academias fortes não convencem.</h3>
+          <h3 class="t-hero" style="color:var(--accent);font-family:var(--italic);font-style:italic;font-weight:400;letter-spacing:-.02em;margin-top:2cqw">Confirmam.</h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Sobre autoridade</span></div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>02 / 06</span><span>Definição</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Convencer é <span class="ital">esforço.</span></h3>
+          <h3 class="t-title" style="margin-top:2cqw">Confirmar é <span class="ital">consequência.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Comportamento</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker" style="color:var(--ink);opacity:.85">Sinais</span>
+          <h3 class="t-med" style="margin-top:3cqw">Academia <span class="ital">fraca</span> argumenta.</h3>
+          <div class="hr"></div>
+          <h3 class="t-med">Academia <span class="ital">forte</span> prova —</h3>
+          <h3 class="t-med">todo dia.</h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 list -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Coerência</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker">O que confirma</span>
+          <ul class="slist" style="margin-top:3cqw">
+            <li>O <em class="ital">ambiente</em> fala</li>
+            <li>As <em class="ital">pessoas</em> falam</li>
+            <li>A <em class="ital">comunicação</em> fala</li>
+            <li style="opacity:.7">— e todos dizem a <em class="ital">mesma coisa.</em></li>
+          </ul>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Efeito</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-med">Quando há <span class="ital">confirmação,</span></h3>
+          <h3 class="t-med" style="margin-top:2cqw">o aluno chega <span class="ital">já decidido.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Construção de autoridade</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Pare de <span class="ital">convencer.</span> Comece a <span class="ital">confirmar.</span></h3>
+          <div class="cta-box">Como fazer <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== CARROSSEL 05 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">05</div>
+    <h2>Público <em>certo</em> vs. público que <em>você tem.</em></h2>
+    <div class="tag"><b>Tema</b>Segmentação<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Comparação</span>
+          <h3 class="t-hero" style="margin-top:3cqw">Público <span class="ital">certo</span></h3>
+          <h3 class="t-hero">vs. público que <span class="ital">você tem.</span></h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Dois mundos</span></div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>02 / 06</span><span>Premissa 01</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">O público que você <span class="ital">tem</span></h3>
+          <h3 class="t-title">chegou <span class="ital">sozinho.</span></h3>
+          <div class="hr"></div>
+          <p class="t-body">Ele entrou porque estava perto. Porque viu uma promoção. Porque era o único disponível.</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Premissa 02</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">O público <span class="ital">certo</span></h3>
+          <h3 class="t-title">chega quando a marca <span class="ital">chama.</span></h3>
+          <div class="hr"></div>
+          <p class="t-body" style="opacity:.9">Ele entra porque entendeu a proposta. E fica porque ela confirma, todo dia.</p>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 compare -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Lado a lado</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker">A diferença</span>
+          <div class="compare">
+            <div class="col err">
+              <h4>Público sozinho</h4>
+              <p>Preço</p>
+              <p>Proximidade</p>
+              <p>Promessa vaga</p>
+            </div>
+            <div class="col ok">
+              <h4>Público certo</h4>
+              <p>Proposta</p>
+              <p>Pertencimento</p>
+              <p>Promessa clara</p>
+            </div>
+          </div>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Tese</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-title">Não é <span class="ital">atrair</span> mais.</h3>
+          <h3 class="t-title" style="margin-top:2cqw">É atrair <span class="ital">certo.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Definição de público</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Definimos <span class="ital">quem</span> você quer — e <span class="ital">como chamar.</span></h3>
+          <div class="cta-box">Quero entender <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== CARROSSEL 06 ================== -->
+<section class="carousel">
+  <div class="carousel-head">
+    <div class="idx">06</div>
+    <h2>O que <em>é</em> a Microloading?</h2>
+    <div class="tag"><b>Tema</b>Manifesto<br>06 slides</div>
+  </div>
+  <div class="hint">Arraste para o lado →</div>
+
+  <div class="reel">
+
+    <!-- S1 -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span class="brand">MICROLOADING</span><span>01 / 06</span></div>
+        <div style="margin-top:auto">
+          <span class="t-kicker">Manifesto Nº 001</span>
+          <h3 class="t-hero" style="margin-top:3cqw">O que é a <span class="ital">Microloading?</span></h3>
+        </div>
+        <div class="bottom"><span class="sw">Arraste <b>→</b></span><span>Em seis slides</span></div>
+      </div>
+    </div>
+
+    <!-- S2 definition -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>02 / 06</span><span>Definição</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-med">Uma estrutura de <span class="ital">posicionamento</span> e <span class="ital">valorização</span> de marca —</h3>
+          <h3 class="t-med" style="margin-top:2cqw">feita para <span class="ital">academias.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S3 thesis -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>03 / 06</span><span>Diferença</span></div>
+        <div style="margin:auto 0">
+          <span class="quote-mark">"</span>
+          <h3 class="t-med">Não ensinamos <span class="ital">a postar.</span></h3>
+          <h3 class="t-med" style="margin-top:2cqw">Ensinamos <span class="ital">o que</span> comunicar —</h3>
+          <h3 class="t-med">e <span class="ital">por quê.</span></h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S4 process -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>04 / 06</span><span>Método</span></div>
+        <div style="margin:auto 0">
+          <span class="t-kicker">Cinco etapas</span>
+          <h3 class="t-med" style="margin-top:2cqw">De <span class="ital">genérica</span> a <span class="ital">inevitável.</span></h3>
+          <div class="steps-grid">
+            <div class="cell"><div class="n">01</div><div class="sub">Clareza</div><div class="l">Diagnóstico</div></div>
+            <div class="cell"><div class="n">02</div><div class="sub">Direção</div><div class="l">Definição</div></div>
+            <div class="cell"><div class="n">03</div><div class="sub">Design</div><div class="l">Tradução</div></div>
+            <div class="cell"><div class="n">04</div><div class="sub">Vida real</div><div class="l">Aplicação</div></div>
+            <div class="cell"><div class="n">05</div><div class="sub">Autonomia</div><div class="l">Guia de uso</div></div>
+          </div>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S5 for whom -->
+    <div class="slide bg-ink">
+      <div class="pad">
+        <div class="top"><span>05 / 06</span><span>Para quem</span></div>
+        <div style="margin:auto 0">
+          <h3 class="t-title">Para donos que querem</h3>
+          <h3 class="t-title"><span class="ital">cobrar</span> mais —</h3>
+          <h3 class="t-title" style="margin-top:2cqw">não <span class="ital">atender</span> mais.</h3>
+        </div>
+        <div class="bottom"><span>Microloading</span><span>→</span></div>
+      </div>
+    </div>
+
+    <!-- S6 CTA -->
+    <div class="slide">
+      <div class="pad">
+        <div class="top"><span>06 / 06</span><span class="brand">MICROLOADING</span></div>
+        <div class="cta-core">
+          <span class="stamp">Atendimento limitado</span>
+          <h3 style="margin-top:4cqw;font-family:var(--display);font-weight:700;letter-spacing:var(--track);font-size:10cqw;line-height:.9">Três academias por <span class="ital">mês.</span></h3>
+          <p style="font-family:var(--body);font-size:3.6cqw;margin-top:3cqw;line-height:1.45;opacity:.8">Se a sua for uma delas, o primeiro passo é o diagnóstico.</p>
+          <div class="cta-box">Quero o diagnóstico <span>→</span></div>
+        </div>
+        <div class="bottom"><span>@microloading</span><span>Salvar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="footer">
+  <div class="logo">Microloading<em>.</em></div>
+  <div>© 2026 · Série de carrosséis 001</div>
+  <div>06 peças · 4:5</div>
+</div>
+
+<div class="corner-mark">Arraste cada bloco →</div>
+
+</body>
+</html>
