@@ -1548,9 +1548,9 @@
     .final .ctas {
       margin-top: 56px;
       display: flex;
+      flex-direction: column;
       gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap
+      align-items: center;
     }
 
     .final .btn-primary {
@@ -1571,7 +1571,9 @@
       color: var(--ink-2);
       border: 1px solid var(--rule-2);
       padding: 10px 16px;
-      border-radius: 2px
+      border-radius: 2px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .final .fine .dot {
@@ -2215,18 +2217,14 @@
       <h2 class="reveal">Pare de perder dinheiro com o público <em>errado.</em></h2>
       <p class="sub reveal">Sua academia é boa. Ela só ainda <em>não parece.</em><br>Vamos organizar isso.</p>
 
-      <a href="#" class="btn btn-primary" data-wa>Começar o diagnóstico →</a>
-      <a href="mailto:contato@microloading.com.br" class="btn btn-ghost">Escrever um email</a>
+      <div class="ctas reveal">
+        <a href="#" class="btn btn-primary" data-wa>Começar o diagnóstico →</a>
+        <a href="mailto:contato@microloading.com.br" class="btn btn-ghost">Escrever um email</a>
+      </div>
 
       <div class="fine reveal"><span class="dot"></span>Atendimento limitado — <b>03 academias / mês</b></div>
     </div>
   </section>
-
-  <footer>
-    <div class="logo">Microloading<em>.</em></div>
-    <div>© 2026 · Posicionamento para academias</div>
-    <div>BR / Nº 001</div>
-  </footer>
 
   <!-- TWEAKS -->
   <aside class="tweaks" id="tweaks">
